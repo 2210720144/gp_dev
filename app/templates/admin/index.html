@@ -1,0 +1,55 @@
+{% extends "admin/base.html" %}
+
+{% block title %}数据概览{% endblock %}
+
+{% block content %}
+    <h2 class="page-title">数据概览</h2>
+    <!-- 数据卡片 -->
+    <div class="data-cards">
+        <div class="data-card">
+            <div class="card-icon camera">
+                <i class="fas fa-video fa-2x"></i>
+            </div>
+            <div class="card-value" id="camera-total">-</div>
+            <div class="card-desc" id="camera-detail">摄像头总数（在线：- / 离线：-）</div>
+        </div>
+        <div class="data-card">
+            <div class="card-icon user">
+                <i class="fas fa-users fa-2x"></i>
+            </div>
+            <div class="card-value" id="user-total">-</div>
+            <div class="card-desc" id="user-detail">注册用户数（已审核：- / 待审核：-）</div>
+        </div>
+        <div class="data-card">
+            <div class="card-icon alert">
+                <i class="fas fa-bell fa-2x"></i>
+            </div>
+            <div class="card-value" id="alert-total">-</div>
+            <div class="card-desc">今日违停告警数</div>
+            <div class="card-desc" id="alert-detail" style="margin-top: 5px;">（未处理：- / 已处理：-）</div>
+        </div>
+        <div class="data-card">
+            <div class="card-icon feedback">
+                <i class="fas fa-comments fa-2x"></i>
+            </div>
+            <div class="card-value" id="feedback-total">-</div>
+            <div class="card-desc">用户反馈数</div>
+            <div class="card-desc" id="feedback-detail" style="margin-top: 5px;">（未回复：- / 已回复：-）</div>
+        </div>
+    </div>
+    <!-- 图表区域 -->
+    <div class="chart-container">
+        <div class="chart-card">
+            <h3>近7天违停告警趋势</h3>
+            <div class="chart-wrapper">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>各摄像头违停次数占比</h3>
+            <div class="chart-wrapper">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+{% endblock %}

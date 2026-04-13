@@ -1,0 +1,168 @@
+{% extends "admin/base.html" %}
+
+{% block title %}摄像头管理{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_camera_list.css') }}?v=1.2">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2 class="page-title">摄像头管理</h2>
+        <div class="actions">
+            <button class="create-btn" onclick="openAddModal()">
+                <i class="fas fa-plus"></i> 添加摄像头
+            </button>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>摄像头ID</th>
+                        <th>摄像头名称</th>
+                        <th>视频源ID</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="camera-table-body">
+                    <!-- 数据将由 JS 加载 (Mock) -->
+                    <tr>
+                        <td colspan="4" class="loading-text">正在加载数据...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 添加摄像头模态框 -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加摄像头</h3>
+                <span class="close-modal" onclick="closeAddModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                    <div class="form-group">
+                        <label>摄像头名称 <span class="required">*</span></label>
+                        <input type="text" id="add-name" required placeholder="请输入摄像头名称">
+                    </div>
+                    <div class="form-group">
+                        <label>连接视频源</label>
+                        <div class="select-wrapper">
+                            <select id="add-video-select">
+                                <option value="">-- 请选择视频源（可选） --</option>
+                            </select>
+                            <div class="arrow"><i class="fas fa-chevron-down"></i></div>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel-modal" onclick="closeAddModal()">取消</button>
+                        <button type="submit" class="btn-save-modal">确认添加</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 配置模态框 -->
+    <div id="configModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>配置摄像头</h3>
+                <span class="close-modal" onclick="closeConfigModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="configForm">
+                    <input type="hidden" id="config-camera-id-hidden">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>摄像头ID</label>
+                            <input type="text" id="config-camera-id" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>摄像头名称<span class="edit-tag"> (可修改)</span></label>
+                            <input type="text" id="config-camera-name" required placeholder="请输入摄像头名称">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>连接视频源</label>
+                            <div class="select-wrapper">
+                                <select id="config-video-select">
+                                    <option value="">-- 请选择视频源 --</option>
+                                </select>
+                                <div class="arrow"><i class="fas fa-chevron-down"></i></div>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>授权用户 (仅限普通用户)</label>
+                            <div class="custom-multi-select" id="config-user-multi-select">
+                                <div class="select-box" onclick="toggleUserDropdown()">
+                                    <div class="selected-tags" id="selected-users-display">
+                                        <span class="select-placeholder">请选择授权用户...</span>
+                                    </div>
+                                    <div class="arrow"><i class="fas fa-chevron-down"></i></div>
+                                </div>
+                                <div class="options-container" id="config-user-options">
+                                    <!-- Options will be loaded here -->
+                                    <div class="option-item" style="color: #777;">正在加载...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel-modal" onclick="closeConfigModal()">取消</button>
+                        <button type="submit" class="btn-save-modal">保存配置</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 摄像头详情模态框 -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>摄像头详情</h3>
+                <span class="close-modal" onclick="closeDetailModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>摄像头ID</label>
+                        <input type="text" id="detail-camera-id" readonly class="readonly-input">
+                    </div>
+                    <div class="form-group">
+                        <label>摄像头名称</label>
+                        <input type="text" id="detail-camera-name" readonly class="readonly-input">
+                    </div>
+                    <div class="form-group">
+                        <label>连接视频源</label>
+                        <input type="text" id="detail-video-source" readonly class="readonly-input">
+                    </div>
+                    <div class="form-group">
+                        <label>创建人ID</label>
+                        <input type="text" id="detail-created-by" readonly class="readonly-input">
+                    </div>
+                    <div class="form-group">
+                        <label>创建时间</label>
+                        <input type="text" id="detail-created-at" readonly class="readonly-input">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>授权用户</label>
+                        <textarea id="detail-authorized-users" readonly class="readonly-input" rows="3" style="resize: none;"></textarea>
+                    </div>
+                </div>
+                <div class="modal-actions" style="justify-content: flex-end;">
+                    <button type="button" class="btn-cancel-modal" onclick="closeDetailModal()">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/admin/admin_camera_list.js') }}"></script>
+{% endblock %}

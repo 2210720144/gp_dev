@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}用户端{% endblock %} - 校园单车违停智能检测系统</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon/favicon.svg') }}">
+    <!-- 第三方库 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 公共样式 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/user_index.css') }}">
+    <!-- 页面专属样式块 -->
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-bicycle"></i>
+            <span>校园单车违停智能检测系统</span>
+        </div>
+        <div class="right">
+            <div class="mail-icon">
+                <i class="fas fa-envelope"></i>
+                <span class="badge" id="alert-badge">0</span>
+            </div>
+            <div class="user-info">
+                <span id="header-username">普通用户</span>
+                <button onclick="logout()">退出登录</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 左侧菜单 -->
+    <div class="sidebar">
+        <ul class="menu">
+            <li>
+                <a href="{{ url_for('main.user_index') }}" class="{% if request.endpoint == 'main.user_index' %}active{% endif %}">
+                    <i class="fas fa-video"></i> 摄像头监控
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.user_alert_list') }}" class="{% if request.endpoint == 'main.user_alert_list' %}active{% endif %}">
+                    <i class="fas fa-bell"></i> 告警事件记录
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.user_feedback_list') }}" class="{% if request.endpoint == 'main.user_feedback_list' %}active{% endif %}">
+                    <i class="fas fa-comment-dots"></i> 系统反馈
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('main.user_profile') }}" class="{% if request.endpoint == 'main.user_profile' %}active{% endif %}">
+                    <i class="fas fa-user"></i> 个人中心
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 主内容区占位符 -->
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- 公共脚本 -->
+    <script src="{{ url_for('static', filename='js/user/user_index.js') }}"></script>
+    <script>
+        function logout() {
+            // 清除 Token 并跳转
+            localStorage.removeItem('token');
+            window.location.href = '/';
+        }
+    </script>
+    <!-- 页面专属脚本块 -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>

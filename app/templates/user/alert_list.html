@@ -1,0 +1,109 @@
+{% extends "user/base.html" %}
+
+{% block title %}告警事件记录{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/user_feedback_list.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/alert_list.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2 class="page-title">告警事件记录</h2>
+        <div class="actions">
+            <div class="export-dropdown">
+                <button class="export-btn">
+                    <i class="fas fa-file-export"></i> 导出文件
+                </button>
+                <div class="export-content">
+                    <a href="#" id="export-pdf">导出PDF</a>
+                    <a href="#" id="export-excel">导出EXCEL</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <div class="filter-item">
+            <span class="filter-label">监控</span>
+            <select id="camera-filter" class="filter-select">
+                <option value="all">全部监控</option>
+                <option value="1">摄像头A</option>
+                <option value="2">摄像头B</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">年份</span>
+            <select id="year-filter" class="filter-select">
+                <option value="2026">2026年</option>
+                <option value="2025">2025年</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">月份</span>
+            <select id="month-filter" class="filter-select">
+                <option value="all">全部</option>
+                <option value="01">1月</option>
+                <option value="02">2月</option>
+                <option value="03">3月</option>
+                <option value="04">4月</option>
+                <option value="05">5月</option>
+                <option value="06">6月</option>
+                <option value="07">7月</option>
+                <option value="08">8月</option>
+                <option value="09">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
+            </select>
+        </div>
+        <div class="filter-checkbox">
+            <input type="checkbox" id="show-all-check">
+            <label for="show-all-check">显示所有事件</label>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>事件ID</th>
+                        <th>摄像头ID</th>
+                        <th>违停开始时间</th>
+                        <th>违停结束时间</th>
+                        <th>是否已处理</th>
+                    </tr>
+                </thead>
+                <tbody id="alert-table-body">
+                    <!-- 静态数据示例 -->
+                    <tr>
+                        <td>1001</td>
+                        <td>CAM-001</td>
+                        <td>2026-02-15 14:30:00</td>
+                        <td>2026-02-15 14:35:00</td>
+                        <td><span class="status-badge status-processed">已处理</span></td>
+                    </tr>
+                    <tr>
+                        <td>1002</td>
+                        <td>CAM-002</td>
+                        <td>2026-02-16 09:15:00</td>
+                        <td>-</td>
+                        <td><span class="status-badge status-pending">未处理</span></td>
+                    </tr>
+                    <tr>
+                        <td>1003</td>
+                        <td>CAM-001</td>
+                        <td>2026-02-16 10:20:00</td>
+                        <td>2026-02-16 10:22:30</td>
+                        <td><span class="status-badge status-processed">已处理</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/user/alert_list.js') }}"></script>
+{% endblock %}

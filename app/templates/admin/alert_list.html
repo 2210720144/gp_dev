@@ -1,0 +1,127 @@
+{% extends "admin/base.html" %}
+
+{% block title %}告警事件查看{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/user_feedback_list.css') }}">
+    <style>
+        .export-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .export-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+        }
+        .export-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+        }
+        .export-content a:hover {background-color: #f1f1f1;}
+        .export-dropdown:hover .export-content {display: block;}
+        .export-btn {
+            background-color: #4A6FA5;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        /* Admin specific adjustments */
+        .page-header {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2 class="page-title">告警事件查看</h2>
+        <div class="actions">
+            <div class="export-dropdown">
+                <button class="export-btn">
+                    <i class="fas fa-file-export"></i> 导出文件
+                </button>
+                <div class="export-content">
+                    <a href="#" id="export-pdf">导出PDF</a>
+                    <a href="#" id="export-excel">导出EXCEL</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <div class="filter-item">
+            <span class="filter-label">监控</span>
+            <select id="camera-filter" class="filter-select">
+                <option value="all">全部监控</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">年份</span>
+            <select id="year-filter" class="filter-select">
+                <option value="2026">2026年</option>
+                <option value="2025">2025年</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">月份</span>
+            <select id="month-filter" class="filter-select">
+                <option value="all">全部</option>
+                <option value="01">1月</option>
+                <option value="02">2月</option>
+                <option value="03">3月</option>
+                <option value="04">4月</option>
+                <option value="05">5月</option>
+                <option value="06">6月</option>
+                <option value="07">7月</option>
+                <option value="08">8月</option>
+                <option value="09">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
+            </select>
+        </div>
+        <div class="filter-checkbox">
+            <input type="checkbox" id="show-all-check">
+            <label for="show-all-check">显示所有事件</label>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>事件ID</th>
+                        <th>摄像头ID</th>
+                        <th>摄像头名称</th>
+                        <th>违停开始时间</th>
+                        <th>违停结束时间</th>
+                        <th>是否已处理</th>
+                    </tr>
+                </thead>
+                <tbody id="alert-table-body">
+                    <!-- 数据由JS动态加载 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/admin/alert_list.js') }}"></script>
+{% endblock %}

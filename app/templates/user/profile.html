@@ -1,0 +1,103 @@
+{% extends "user/base.html" %}
+
+{% block title %}个人中心{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/user_profile.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h2 class="page-title">个人中心</h2>
+
+    <div class="profile-container">
+        <!-- 基本信息卡片 -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h3>基本信息</h3>
+            </div>
+            <div class="card-body">
+                <div class="info-group">
+                    <label>用户ID</label>
+                    <div class="info-value" id="profile-id">加载中...</div>
+                </div>
+                <div class="info-group">
+                    <label>用户名</label>
+                    <div class="info-value" id="profile-username">加载中...</div>
+                </div>
+                <div class="info-group">
+                    <label>邮箱</label>
+                    <div class="info-value" id="profile-email">加载中...</div>
+                </div>
+                <div class="info-group">
+                    <label>角色</label>
+                    <div class="info-value" id="profile-role">加载中...</div>
+                </div>
+                <div class="info-group">
+                    <label>账号状态</label>
+                    <div class="info-value" id="profile-status">加载中...</div>
+                </div>
+                <div class="info-group">
+                    <label>注册时间</label>
+                    <div class="info-value" id="profile-created">加载中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 修改密码卡片 -->
+        <div class="profile-card">
+            <div class="card-header">
+                <h3>安全设置</h3>
+            </div>
+            <div class="card-body">
+                <form id="change-password-form">
+                    <div class="form-group">
+                        <label>邮箱验证</label>
+                        <div class="code-group">
+                            <input type="text" name="code" placeholder="请输入6位验证码" required maxlength="6">
+                            <button type="button" id="send-code-btn">获取验证码</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>新密码</label>
+                        <div class="password-wrapper">
+                            <input type="password" name="new_password" id="new_password" placeholder="请输入新密码" required>
+                            <div class="toggle-password" data-target="new_password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon" style="display: none;">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-off-icon" style="display: block;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>确认新密码</label>
+                        <div class="password-wrapper">
+                            <input type="password" name="confirm_password" id="confirm_password" placeholder="请再次输入新密码" required>
+                            <div class="toggle-password" data-target="confirm_password">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon" style="display: none;">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-off-icon" style="display: block;">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">修改密码</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/user/user_profile.js') }}"></script>
+{% endblock %}

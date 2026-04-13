@@ -1,0 +1,40 @@
+{% extends "user/base.html" %}
+
+{% block title %}我的监控{% endblock %}
+
+{% block content %}
+    <h2 class="page-title">我的监控摄像头</h2>
+    <div class="camera-grid" id="camera-grid">
+        <div class="loading-text">正在加载摄像头数据...</div>
+    </div>
+
+    <!-- 告警侧边栏 -->
+    <!-- Toggle Button (Moved outside to avoid transform context) -->
+    <button id="close-alert" title="收起/展开"><i class="fas fa-chevron-right"></i></button>
+    
+    <div class="alert-sidebar">
+        <div class="alert-content-wrapper">
+            <div class="alert-header">
+                <h3><i class="fas fa-exclamation-circle"></i> 新违停告警</h3>
+            </div>
+            <ul class="alert-list">
+                <li class="alert-item">
+                <div class="alert-time">2024-05-20 14:30:22</div>
+                <div class="alert-content">图书馆西门：1辆单车违停，已持续32秒</div>
+                <div class="alert-opt">
+                    <button class="view-btn">查看详情</button>
+                    <button class="read-btn">标记已读</button>
+                </div>
+            </li>
+            <li class="alert-item">
+                <div class="alert-time">2024-05-20 13:15:47</div>
+                <div class="alert-content">教学楼A区南门：1辆单车违停，已持续45秒</div>
+                <div class="alert-opt">
+                    <button class="view-btn">查看详情</button>
+                    <button class="read-btn">标记已读</button>
+                </div>
+            </li>
+        </ul>
+        </div>
+    </div>
+{% endblock %}

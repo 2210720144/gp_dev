@@ -1,0 +1,246 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #121212; /* Deep dark background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #F5F5F5;
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Horizontally centered */
+    align-items: center; /* Vertically centered */
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Pattern */
+.bg-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.05; /* Very subtle */
+    color: #E0E0E0;
+}
+
+.bike-pattern {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 20%;
+    left: 10%;
+    transform: rotate(-15deg);
+}
+
+/* Auth Container */
+.auth-container {
+    width: 400px; /* Standard width */
+    background-color: #1E1E1E;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    position: relative;
+    /* To mimic "Horizontal 2/3" positioning if interpreted as offset */
+    /* We keep it centered as per best UX for single login box, but let's see if we can shift it */
+    /* User said "Horizontal 2/3 dividing line position". If we assume X-axis 2/3: */
+    /* margin-left: 33%; This would push it to the right. Let's try to keep it centered for now. */
+}
+
+/* Toggle Switch */
+.auth-toggle {
+    display: flex;
+    background-color: #2D2D2D;
+    border-radius: 8px;
+    padding: 4px;
+    margin-bottom: 30px;
+}
+
+.toggle-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px;
+    color: #BBBBBB;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.toggle-btn.active {
+    background-color: #4A6FA5; /* Light Blue */
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+/* Forms */
+.auth-form {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.auth-form.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Input Groups */
+.input-group {
+    margin-bottom: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* 隐藏浏览器原生的隐藏密码的眼睛图标 */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+
+/* Hide native password reveal in WebKit (some versions of Chrome/Edge might use this or similar) */
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    /* This targets the auto-fill, not the eye. But good to know. */
+}
+/* Standard way to hide eye in Edge is ::-ms-reveal */
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #2D2D2D;
+    border: 1px solid #444444;
+    border-radius: 6px;
+    color: #F5F5F5;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #4A6FA5;
+    box-shadow: 0 0 5px rgba(74, 111, 165, 0.3);
+}
+
+/* Icons in Input */
+.input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888888;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.input-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Add padding to input if icon is present */
+.input-icon + input {
+    padding-left: 45px;
+}
+
+/* Password Toggle Icon */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888888; /* Same color as input-icon */
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.toggle-password:hover {
+    color: #BBBBBB;
+}
+
+.toggle-password svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Adjust input padding to make room for toggle icon */
+.password-input {
+    padding-right: 40px !important;
+}
+
+/* Code Group */
+.code-group {
+    display: flex;
+    gap: 10px;
+    align-items: stretch; /* 确保“发送验证码”的按钮和验证码输入框的高度一致 */
+}
+
+.code-btn {
+    white-space: nowrap;
+    background-color: #444444;
+    color: #F5F5F5;
+    border: none;
+    border-radius: 6px;
+    padding: 0 15px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.code-btn:hover:not(:disabled) {
+    background-color: #555555;
+}
+
+.code-btn:disabled {
+    background-color: #333333;
+    color: #888888;
+    cursor: not-allowed;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #444444;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.submit-btn:hover {
+    background-color: #4A6FA5;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+/* Footer */
+.form-footer {
+    margin-top: 15px;
+    text-align: right;
+}
+
+.forgot-password {
+    color: #888888;
+    font-size: 12px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    color: #BBBBBB;
+}

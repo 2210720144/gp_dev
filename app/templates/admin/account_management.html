@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+
+{% block title %}账号管理{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_account_management.css') }}?v=1">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2 class="page-title">账号管理</h2>
+        <div class="actions">
+            <a href="{{ url_for('main.admin_create_account') }}" class="create-btn">
+                <i class="fas fa-plus"></i> 新建账号
+            </a>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <button class="filter-btn active" onclick="filterUsers('all')">全部</button>
+        <button class="filter-btn" onclick="filterUsers('user')">User</button>
+        <button class="filter-btn" onclick="filterUsers('admin')">Admin</button>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>邮箱</th>
+                        <th>角色</th>
+                        <th>状态</th>
+                        <th>注册时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- 数据将通过 JS 加载 -->
+                    <tr>
+                        <td colspan="7" class="loading-text">正在加载数据...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/admin/admin_account_management.js') }}"></script>
+{% endblock %}

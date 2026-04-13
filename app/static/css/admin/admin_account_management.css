@@ -1,0 +1,172 @@
+/* 继承 admin_index.css 的变量 */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    background-color: var(--bg-component);
+    border: 1px solid var(--border-color);
+    color: var(--text-sub);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.filter-btn:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-main);
+}
+
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+.create-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.create-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.table-card {
+    background-color: var(--bg-component);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.data-table th {
+    background-color: #2D2D2D;
+    padding: 16px;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-sub);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-active {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+}
+
+.status-pending {
+    background-color: rgba(241, 196, 15, 0.15);
+    color: #f1c40f;
+}
+
+.status-disabled {
+    background-color: rgba(231, 76, 60, 0.15);
+    color: #e74c3c;
+}
+
+.status-deleted {
+    background-color: rgba(149, 165, 166, 0.15);
+    color: #95a5a6;
+}
+
+/* Action Buttons */
+.action-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 4px;
+    margin-right: 4px;
+    transition: all 0.2s;
+}
+
+.btn-approve {
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+}
+.btn-approve:hover { background-color: rgba(46, 204, 113, 0.1); }
+
+.btn-reject {
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+.btn-reject:hover { background-color: rgba(231, 76, 60, 0.1); }
+
+.btn-disable {
+    color: #f39c12;
+    border: 1px solid rgba(243, 156, 18, 0.3);
+}
+.btn-disable:hover { background-color: rgba(243, 156, 18, 0.1); }
+
+.btn-enable {
+    color: #3498db;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+}
+.btn-enable:hover { background-color: rgba(52, 152, 219, 0.1); }
+
+.btn-delete {
+    color: #c0392b;
+    border: 1px solid rgba(192, 57, 43, 0.3);
+}
+.btn-delete:hover { background-color: rgba(192, 57, 43, 0.1); }
+
+.loading-text {
+    text-align: center;
+    color: var(--text-sub);
+    padding: 40px;
+}

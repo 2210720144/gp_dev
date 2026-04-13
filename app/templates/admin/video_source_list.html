@@ -1,0 +1,125 @@
+{% extends "admin/base.html" %}
+
+{% block title %}视频源列表{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_video_source_list.css') }}?v=1.2">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2 class="page-title">视频源列表</h2>
+        <div class="actions">
+            <a href="{{ url_for('main.admin_add_video_source') }}" class="create-btn">
+                <i class="fas fa-plus"></i> 添加视频源
+            </a>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>视频ID</th>
+                        <th>视频源名称</th>
+                        <th>格式</th>
+                        <th>配置状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="video-table-body">
+                    <!-- Data will be loaded via JS -->
+                    <tr>
+                        <td colspan="5" class="loading-text">正在加载数据...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>视频源详情</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="detailForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>视频ID</label>
+                            <input type="text" id="detail-id" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>视频源名称 <span class="edit-tag">(可修改)</span></label>
+                            <input type="text" id="detail-name" class="editable-input">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>视频源路径</label>
+                            <input type="text" id="detail-url" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>所在区域 <span class="edit-tag">(可修改)</span></label>
+                            <input type="text" id="detail-location" class="editable-input">
+                        </div>
+                        <div class="form-group">
+                            <label>视频格式</label>
+                            <input type="text" id="detail-format" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>上传时间</label>
+                            <input type="text" id="detail-upload-time" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>上传人ID</label>
+                            <input type="text" id="detail-upload-by" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>配置状态</label>
+                            <input type="text" id="detail-status" readonly class="readonly-input">
+                        </div>
+                        <div class="form-group">
+                            <label>关联摄像头ID</label>
+                            <input type="text" id="detail-camera-id" readonly class="readonly-input">
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel-modal">取消</button>
+                        <button type="submit" class="btn-save-modal">保存修改</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content preview-content">
+            <div class="modal-header">
+                <h3>视频预览 <span class="preview-tip">(仅展示前10秒)</span></h3>
+                <span class="close-preview">&times;</span>
+            </div>
+            <div class="modal-body preview-body">
+                <div class="video-wrapper">
+                    <video id="previewPlayer" controls autoplay muted width="100%">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div id="previewMessage" class="preview-message hidden">
+                        <i class="fas fa-info-circle"></i> 预览结束 (仅展示前10秒)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- 先加载业务逻辑，确保列表能立刻展示 -->
+    <script src="{{ url_for('static', filename='js/admin/admin_video_source_list.js') }}"></script>
+    <!-- 后加载播放器组件，避免阻塞页面 -->
+    <!-- 暂时注释掉外部库以提升加载速度
+    <script src="https://cdn.bootcdn.net/ajax/libs/flv.js/1.6.2/flv.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/hls.js/1.4.0/hls.min.js"></script>
+    -->
+{% endblock %}

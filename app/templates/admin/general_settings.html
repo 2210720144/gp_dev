@@ -1,0 +1,49 @@
+{% extends "admin/base.html" %}
+
+{% block title %}通用参数设置{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/general_settings.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2 class="page-title">通用参数设置</h2>
+        <div class="actions">
+            <button class="save-btn" id="save-btn">
+                <i class="fas fa-save"></i> 保存设置
+            </button>
+        </div>
+    </div>
+
+    <div class="settings-container">
+        <div class="settings-card">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>判定违停时间</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="violation_judgment_time" step="0.1" min="0">
+                        <span class="unit" id="unit_violation_judgment_time">min</span>
+                        <div class="info-icon" id="desc_violation_judgment_time" data-tooltip="加载中...">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>告警刷新时间</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="alert_refresh_interval" step="0.1" min="0">
+                        <span class="unit" id="unit_alert_refresh_interval">min</span>
+                        <div class="info-icon" id="desc_alert_refresh_interval" data-tooltip="加载中...">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/admin/general_settings.js') }}"></script>
+{% endblock %}

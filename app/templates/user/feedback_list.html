@@ -1,0 +1,181 @@
+{% extends "user/base.html" %}
+
+{% block title %}系统反馈{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user/user_feedback_list.css') }}?v=1.0.7">
+{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h2 class="page-title">系统反馈</h2>
+        <div class="actions">
+            <button class="create-btn" onclick="openAddFeedbackModal()">
+                <i class="fas fa-plus"></i> 添加反馈
+            </button>
+        </div>
+    </div>
+
+    <div class="filter-group">
+        <div class="filter-item">
+            <span class="filter-label">年份</span>
+            <select id="year-filter" class="filter-select" onchange="filterFeedback()">
+                <option value="2026">2026年</option>
+                <option value="2025">2025年</option>
+            </select>
+        </div>
+        <div class="filter-item">
+            <span class="filter-label">月份</span>
+            <select id="month-filter" class="filter-select" onchange="filterFeedback()">
+                <option value="all">全部</option>
+                <option value="01">1月</option>
+                <option value="02">2月</option>
+                <option value="03">3月</option>
+                <option value="04">4月</option>
+                <option value="05">5月</option>
+                <option value="06">6月</option>
+                <option value="07">7月</option>
+                <option value="08">8月</option>
+                <option value="09">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
+            </select>
+        </div>
+        <div class="filter-checkbox">
+            <input type="checkbox" id="show-all-check" onchange="toggleShowAll(this)">
+            <label for="show-all-check">显示所有反馈</label>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>反馈ID</th>
+                        <th>反馈标题</th>
+                        <th>处理状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="feedback-table-body">
+                    <!-- 数据将通过 JS 加载 -->
+                    <tr>
+                        <td colspan="4" class="loading-text">正在加载数据...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 查看详情模态框 -->
+    <div id="viewDetailModal" class="modal-overlay hidden">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3>反馈详情</h3>
+                <span class="close-btn" onclick="closeViewDetailModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="detail-split-container">
+                    <!-- 左侧：用户反馈信息 -->
+                    <div class="detail-column left-column">
+                        <h4 class="column-title">反馈信息</h4>
+                        <div class="detail-row">
+                            <div class="detail-group">
+                                <label>反馈ID</label>
+                                <div id="detail-feedback-id" class="detail-value"></div>
+                            </div>
+                            <div class="detail-group">
+                                <label>用户ID</label>
+                                <div id="detail-user-id" class="detail-value"></div>
+                            </div>
+                        </div>
+                        <div class="detail-group">
+                            <label>反馈标题</label>
+                            <div id="detail-title" class="detail-value"></div>
+                        </div>
+                        <div class="detail-group">
+                            <label>反馈内容</label>
+                            <div id="detail-content" class="detail-value content-box"></div>
+                        </div>
+                        <div class="detail-group">
+                            <label>图片</label>
+                            <div id="detail-image-container" class="detail-value image-box">
+                                <!-- 图片将在这里动态加载 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：回复内容 -->
+                    <div class="detail-column right-column">
+                        <h4 class="column-title">处理结果</h4>
+                        <div class="detail-group">
+                            <label>处理状态</label>
+                            <div id="detail-status" class="detail-value"></div>
+                        </div>
+                        <div class="detail-group">
+                            <label>回复内容</label>
+                            <div id="detail-reply" class="detail-value reply-box"></div>
+                        </div>
+                        <div class="detail-group">
+                            <label>回复时间</label>
+                            <div id="detail-reply-time" class="detail-value"></div>
+                        </div>
+                        <div class="detail-group">
+                            <label>回复人ID</label>
+                            <div id="detail-reply-by" class="detail-value"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeViewDetailModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加反馈模态框 -->
+    <div id="addFeedbackModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加反馈</h3>
+                <span class="close-btn" onclick="closeAddFeedbackModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addFeedbackForm">
+                    <div class="form-group">
+                        <label for="feedbackTitle">反馈标题 <span class="required">*</span></label>
+                        <input type="text" id="feedbackTitle" name="title" placeholder="请输入反馈标题" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedbackContent">详细内容 <span class="required">*</span></label>
+                        <textarea id="feedbackContent" name="content" placeholder="请输入详细内容" rows="5" maxlength="100" required oninput="updateCharCount(this)"></textarea>
+                        <div id="charCount" class="char-count">0/100</div>
+                    </div>
+                    <div class="form-group">
+                        <label>截图 <span class="sub-label">（仅支持上传一张图片）</span></label>
+                        <div class="file-upload-area" id="dropArea">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <p>点击或拖拽文件到此处</p>
+                            <input type="file" id="feedbackImage" name="image" accept="image/*" hidden>
+                        </div>
+                        <div id="fileInfo" class="file-info hidden">
+                            <i class="fas fa-image"></i>
+                            <span id="fileName"></span>
+                            <span id="removeFile" class="remove-file" title="移除文件" onclick="removeFile()">&times;</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeAddFeedbackModal()">取消</button>
+                <button type="button" class="btn-confirm" onclick="submitFeedback()">添加反馈</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/user/user_feedback_list.js') }}?v=1.0.2"></script>
+{% endblock %}

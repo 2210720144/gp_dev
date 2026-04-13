@@ -1,0 +1,86 @@
+{% extends "admin/base.html" %}
+
+{% block title %}添加视频源{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_add_video_source.css') }}">
+{% endblock %}
+
+{% block content %}
+    <h2 class="page-title">添加视频源</h2>
+    
+    <form id="add-video-form" class="form-layout">
+        <!-- 左侧主要配置面板 -->
+        <div class="form-panel form-main">
+            <h3 class="panel-title">视频源添置</h3>
+            
+            <div class="form-group">
+                <label>视频源名称 <span style="color: #f44336">*</span></label>
+                <input type="text" name="name" placeholder="例如：北门摄像头01" required>
+            </div>
+
+            <!-- 视频源类型选择 -->
+            <div class="form-group">
+                <label>视频源类型</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="source_type" value="stream" checked> 网络流媒体 (RTSP/RTMP)
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="source_type" value="file"> 本地视频文件 (MP4/AVI)
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 网络流地址输入 (默认显示) -->
+            <div id="stream-input-group" class="form-group">
+                <label>视频流地址 (RTSP/RTMP/HTTP) <span style="color: #f44336">*</span></label>
+                <div class="url-group">
+                    <input type="text" name="url" placeholder="rtsp://admin:password@192.168.1.100:554/stream">
+                    <button type="button" id="test-connection-btn" class="test-btn">测试连接</button>
+                </div>
+                <div id="test-result" class="test-result"></div>
+            </div>
+
+            <!-- 本地文件上传 (默认隐藏) -->
+            <div id="file-input-group" class="form-group hidden">
+                <label>上传视频文件 <span style="color: #f44336">*</span></label>
+                <div class="file-upload-area" id="drop-area">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <p>点击或拖拽视频文件到此处</p>
+                    <p class="sub-text">支持 MP4, AVI, MKV, MOV 等格式</p>
+                    <input type="file" name="video_file" id="video-file-input" accept="video/*">
+                </div>
+                <div id="file-preview-container" class="hidden">
+                    <div class="file-info-box">
+                        <i class="fas fa-file-video"></i>
+                        <span id="file-name-display"></span>
+                        <span id="file-size-display" class="file-size"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>所在区域</label>
+                <input type="text" name="area" list="area-options" placeholder="请选择或输入区域..." autocomplete="off">
+                <datalist id="area-options">
+                    <option value="教学楼区域"></option>
+                    <option value="图书馆区域"></option>
+                    <option value="宿舍区域"></option>
+                    <option value="食堂区域"></option>
+                    <option value="操场区域"></option>
+                    <option value="其他"></option>
+                </datalist>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">保存配置</button>
+                <button type="button" class="cancel-btn" id="cancel-btn">取消</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/admin/admin_add_video_source.js') }}"></script>
+{% endblock %}

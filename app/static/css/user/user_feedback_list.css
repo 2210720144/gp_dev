@@ -1,0 +1,510 @@
+/* Detail Modal Styles */
+/* .detail-grid Removed */
+
+/* .detail-group defined above */
+
+/* .detail-group.full-width Removed */
+
+/* .detail-group label defined above */
+
+/* .detail-value defined above */
+
+/* .content-box, .reply-box defined above */
+
+.image-box {
+    display: flex;
+    justify-content: center;
+    background-color: var(--bg-page);
+    border: 1px solid #444; /* Darker border */
+    border-radius: 4px; /* Ensure border radius matches */
+    padding: 10px;
+}
+
+.detail-image {
+    max-width: 100%;
+    max-height: 150px;
+    border-radius: 4px;
+    cursor: pointer; /* Suggest clickable */
+    transition: transform 0.2s;
+}
+
+.detail-image:hover {
+    transform: scale(1.02);
+}
+
+.no-image, .no-reply {
+    color: var(--text-sub);
+    font-style: italic;
+    padding: 10px 0;
+}
+/* 继承 user_index.css 的变量 */
+
+/* 覆盖默认的右边距（原用于首页右侧栏），使页面占满宽度 */
+.main-content {
+    margin-right: 0;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.create-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.create-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.filter-group {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: var(--bg-component);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.filter-item {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.filter-label {
+    background-color: #2D2D2D;
+    color: var(--text-sub);
+    padding: 8px 12px;
+    font-size: 14px;
+    border-right: 1px solid var(--border-color);
+}
+
+.filter-select {
+    background-color: var(--bg-component);
+    color: var(--text-main);
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    min-width: 120px;
+}
+
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-main);
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.filter-checkbox input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.filter-checkbox label {
+    cursor: pointer;
+    user-select: none;
+}
+
+.table-card {
+    background-color: var(--bg-component);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* 模态框样式 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background-color: #000000;
+    border-radius: 8px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh; /* 防止超出屏幕高度 */
+}
+
+/* 详情模态框加宽 */
+.modal-content.large-modal {
+    width: 900px;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-main);
+}
+
+.close-btn {
+    font-size: 24px;
+    color: var(--text-sub);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--text-main);
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto; /* 内容过多时滚动 */
+    flex: 1;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end; /* 按钮右对齐 */
+    flex-shrink: 0;
+}
+
+/* Detail Modal Split Layout */
+.detail-split-container {
+    display: flex;
+    gap: 30px;
+}
+
+.detail-row {
+    display: flex;
+    gap: 20px;
+}
+
+.detail-row .detail-group {
+    flex: 1;
+}
+
+.detail-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.left-column {
+    border-right: 1px solid var(--border-color);
+    padding-right: 30px;
+}
+
+.column-title {
+    margin: 0 0 10px 0;
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.detail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-group label {
+    color: var(--text-sub);
+    font-size: 13px;
+}
+
+.detail-value {
+    padding: 10px;
+    background-color: var(--bg-page); /* Match admin model management style */
+    border: 1px solid #444; /* Darker border */
+    border-radius: 4px;
+    color: var(--text-main);
+    font-size: 14px;
+    min-height: 20px; /* Ensure empty fields have height */
+    word-break: break-all; /* 防止长文本溢出 */
+}
+
+.content-box, .reply-box {
+    min-height: 100px; /* 稍微增高一点 */
+    white-space: pre-wrap; /* Preserve formatting */
+    line-height: 1.5;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-sub);
+    font-size: 13px;
+}
+
+.required {
+    color: #e74c3c;
+    margin-left: 4px;
+}
+
+.sub-label {
+    color: #3498db;
+    font-size: 12px;
+    margin-left: 0px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--bg-page);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-main);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.char-count {
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 4px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+}
+
+.file-upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.file-upload-area:hover,
+.file-upload-area.drag-over {
+    border-color: var(--primary-color);
+    background-color: rgba(52, 152, 219, 0.05);
+}
+
+.upload-icon {
+    font-size: 32px;
+    color: var(--text-sub);
+    margin-bottom: 10px;
+}
+
+.file-upload-area p {
+    margin: 0;
+    color: var(--text-sub);
+    font-size: 14px;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: rgba(46, 204, 113, 0.1);
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    border-radius: 4px;
+    color: #2ecc71;
+}
+
+.file-info.hidden {
+    display: none;
+}
+
+.remove-file {
+    margin-left: auto;
+    cursor: pointer;
+    font-size: 18px;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.remove-file:hover {
+    opacity: 1;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-cancel,
+.btn-confirm {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn-confirm {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-confirm:hover {
+    background-color: var(--primary-hover);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.data-table th {
+    background-color: #2D2D2D;
+    padding: 16px;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-sub);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-processed {
+    background-color: rgba(46, 204, 113, 0.15);
+    color: #2ecc71;
+}
+
+.status-pending {
+    background-color: rgba(241, 196, 15, 0.15);
+    color: #f1c40f;
+}
+
+/* Action Buttons */
+.action-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 4px;
+    margin-right: 4px;
+    transition: all 0.2s;
+}
+
+.btn-view {
+    color: #3498db;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+}
+
+.btn-view:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.btn-cancel {
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.3);
+}
+
+.btn-cancel:hover {
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+.loading-text {
+    text-align: center;
+    color: var(--text-sub);
+    padding: 40px;
+}

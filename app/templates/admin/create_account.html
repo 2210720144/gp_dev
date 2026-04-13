@@ -1,0 +1,84 @@
+{% extends "admin/base.html" %}
+
+{% block title %}创建账号{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_create_account.css') }}?v=1">
+{% endblock %}
+
+{% block content %}
+    <h2 class="page-title">创建账号</h2>
+    
+    <div class="form-card">
+        <form id="create-account-form">
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" name="username" placeholder="请输入用户名" required>
+            </div>
+            
+            <div class="form-group">
+                <label>邮箱地址</label>
+                <input type="email" name="email" placeholder="请输入工作邮箱" required>
+            </div>
+
+
+            
+            <div class="form-group password-group">
+                <label>初始密码</label>
+                <div class="password-wrapper">
+                    <input type="password" name="password" id="password" class="password-input" placeholder="设置初始密码（至少6位）" required>
+                    <div class="toggle-password" data-target="password">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon" style="display: none;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-off-icon" style="display: block;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group password-group">
+                <label>确认密码</label>
+                <div class="password-wrapper">
+                    <input type="password" name="confirm_password" id="confirm_password" class="password-input" placeholder="请再次输入密码" required>
+                    <div class="toggle-password" data-target="confirm_password">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-icon" style="display: none;">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="eye-off-icon" style="display: block;">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role Selection -->
+            <div class="form-group">
+                <label>是否为admin？</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="is_admin" value="yes" id="admin-yes" disabled> 是
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="is_admin" value="no" id="admin-no" checked> 否
+                    </label>
+                </div>
+                <p class="hint-text" id="role-hint" style="font-size: 12px; color: #666; margin-top: 4px; display: none;">仅超级管理员可创建管理员账号</p>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">创建账号</button>
+                <button type="button" class="cancel-btn" onclick="history.back()">取消</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/admin/admin_create_account.js') }}"></script>
+{% endblock %}

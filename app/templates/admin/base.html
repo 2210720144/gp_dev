@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}管理端{% endblock %} - 校园单车违停智能检测系统</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon/favicon.svg') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+    <!-- 公共样式 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_index.css') }}?v=1">
+    <!-- 页面专属样式块 -->
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-bicycle"></i>
+            <span>校园单车违停智能检测系统-管理端</span>
+        </div>
+        <div class="right">
+            <div class="user-info">
+                <span>管理员</span>
+                <span class="role-tag"></span>
+            </div>
+            <button>退出登录</button>
+        </div>
+    </div>
+
+    <!-- 左侧菜单 -->
+    <div class="sidebar">
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="{{ url_for('main.admin_index') }}" class="menu-title {% if request.endpoint == 'main.admin_index' %}active{% endif %}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>数据概览</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <!-- 简单的逻辑判断：如果当前路由包含 'admin_create_account' 或 'admin_account_management'，则展开这个菜单 -->
+                <div class="menu-title {% if 'admin_create_account' in request.endpoint or 'admin_account_management' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-users"></i>
+                    <span>用户管理</span>
+                    <i class="fas fa-chevron-up arrow"></i>
+                </div>
+                <ul class="submenu" style="{% if 'admin_create_account' in request.endpoint or 'admin_account_management' in request.endpoint %}display: block;{% endif %}">
+                    <li><a href="{{ url_for('main.admin_account_management') }}" class="{% if request.endpoint == 'main.admin_account_management' %}active{% endif %}">账号管理</a></li>
+                    <li><a href="{{ url_for('main.admin_create_account') }}" class="{% if request.endpoint == 'main.admin_create_account' %}active{% endif %}">创建账号</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <div class="menu-title {% if 'admin_add_video_source' in request.endpoint or 'admin_video_source_list' in request.endpoint %}active{% endif %}">
+                    <i class="fas fa-photo-video"></i>
+                    <span>视频源管理</span>
+                    <i class="fas fa-chevron-up arrow"></i>
+                </div>
+                <ul class="submenu" style="{% if 'admin_add_video_source' in request.endpoint or 'admin_video_source_list' in request.endpoint %}display: block;{% endif %}">
+                    <li><a href="{{ url_for('main.admin_video_source_list') }}" class="{% if request.endpoint == 'main.admin_video_source_list' %}active{% endif %}">视频源列表</a></li>
+                    <li><a href="{{ url_for('main.admin_add_video_source') }}" class="{% if request.endpoint == 'main.admin_add_video_source' %}active{% endif %}">添加视频源</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('main.admin_camera_management') }}" class="menu-title {% if request.endpoint == 'main.admin_camera_management' %}active{% endif %}">
+                    <i class="fas fa-video"></i>
+                    <span>摄像头管理</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('main.admin_feedback_management') }}" class="menu-title {% if request.endpoint == 'main.admin_feedback_management' %}active{% endif %}">
+                    <i class="fas fa-comments"></i>
+                    <span>用户反馈</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('main.admin_alert_list') }}" class="menu-title {% if request.endpoint == 'main.admin_alert_list' %}active{% endif %}">
+                    <i class="fas fa-history"></i>
+                    <span>告警事件查看</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('main.admin_general_settings') }}" class="menu-title {% if request.endpoint == 'main.admin_general_settings' %}active{% endif %}">
+                    <i class="fas fa-cogs"></i>
+                    <span>通用参数设置</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('main.admin_model_management') }}" class="menu-title {% if request.endpoint == 'main.admin_model_management' %}active{% endif %}">
+                    <i class="fas fa-brain"></i>
+                    <span>模型管理</span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{{ url_for('main.admin_profile') }}" class="menu-title {% if request.endpoint == 'main.admin_profile' %}active{% endif %}">
+                    <i class="fas fa-user"></i>
+                    <span>个人中心</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 主内容区占位符 -->
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- 公共脚本 -->
+    <script src="{{ url_for('static', filename='js/admin/admin_index.js') }}?v=6"></script>
+    <!-- 页面专属脚本块 -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>

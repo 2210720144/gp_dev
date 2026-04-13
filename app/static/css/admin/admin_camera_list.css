@@ -1,0 +1,395 @@
+/* 继承 admin_index.css 的变量 */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.create-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.create-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.table-card {
+    background-color: var(--bg-component);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.data-table th {
+    background-color: #2D2D2D;
+    padding: 16px;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-sub);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+/* 按钮组样式 */
+.action-btn {
+    background: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    margin-right: 4px;
+    transition: all 0.2s;
+}
+
+.btn-view { color: #3498db; border-color: rgba(52, 152, 219, 0.3); }
+.btn-config { color: #f1c40f; border-color: rgba(241, 196, 15, 0.3); }
+.btn-delete { color: #e74c3c; border-color: rgba(231, 76, 60, 0.3); }
+
+.btn-view:hover { background-color: rgba(52, 152, 219, 0.1); }
+.btn-config:hover { background-color: rgba(241, 196, 15, 0.1); }
+.btn-delete:hover { background-color: rgba(231, 76, 60, 0.1); }
+
+.tag-unbound {
+    color: var(--text-sub);
+    font-style: italic;
+}
+
+.tag-bound {
+    color: #2ecc71;
+}
+
+/* Modal 样式复用 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 { margin: 0; color: var(--text-main); }
+
+.close-modal {
+    color: var(--text-sub);
+    font-size: 24px;
+    cursor: pointer;
+}
+.close-modal:hover { color: var(--text-main); }
+
+.modal-body { padding: 24px; }
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.form-group {
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label { color: var(--text-sub); font-size: 13px; }
+.form-group input, .form-group select {
+    padding: 10px;
+    background-color: #1E1E1E;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-main);
+}
+
+.readonly-input {
+    background-color: var(--bg-page) !important;
+    border: 1px solid #444 !important;
+    color: var(--text-main) !important;
+}
+
+.readonly-input:focus {
+    outline: none;
+    border: 1px solid #444 !important;
+    box-shadow: none;
+}
+
+.modal-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-cancel-modal {
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-save-modal {
+    padding: 8px 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-save-modal:hover { background-color: var(--primary-hover); }
+
+.loading-text, .empty-text {
+    text-align: center;
+    color: var(--text-sub);
+    padding: 40px;
+}
+
+.required {
+    color: #ff4d4f;
+    margin-left: 4px;
+}
+
+.editable-hint {
+    color: #40a9ff;
+    font-size: 12px;
+    margin-left: 4px;
+    font-weight: normal;
+}
+
+.edit-tag {
+    color: var(--primary-color);
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+/* Custom Multi-Select Dropdown */
+.custom-multi-select {
+    position: relative;
+    width: 100%;
+}
+
+.select-box {
+    background-color: #1E1E1E;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    min-height: 42px;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.select-box:hover {
+    border-color: #555;
+}
+
+.selected-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1;
+}
+
+.select-placeholder {
+    color: #777;
+    font-size: 14px;
+    padding: 4px;
+}
+
+.selected-tag {
+    background-color: rgba(52, 152, 219, 0.2);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    color: #3498db;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tag-remove {
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.tag-remove:hover {
+    opacity: 1;
+}
+
+.arrow {
+    color: var(--text-sub);
+    margin-left: 8px;
+    transition: transform 0.3s;
+}
+
+/* Ensure arrow points UP (180deg) when closed, and DOWN (0deg) when open */
+.custom-multi-select .arrow {
+    transform: rotate(180deg);
+}
+
+.custom-multi-select.open .arrow {
+    transform: rotate(0deg);
+}
+
+/* Wrapper for native select to show custom arrow */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    padding-right: 32px; /* Make space for arrow */
+    cursor: pointer;
+}
+
+.select-wrapper .arrow {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%) rotate(180deg); /* Closed: Point UP */
+    margin-left: 0;
+    pointer-events: none; /* Allow click to pass through to select */
+    transition: transform 0.3s;
+}
+
+.select-wrapper.active .arrow {
+    transform: translateY(-50%) rotate(0deg); /* Open: Point DOWN */
+}
+
+.options-container {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #252525;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-top: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.custom-multi-select.open .options-container {
+    display: block;
+}
+
+.option-item {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--text-main);
+    font-size: 14px;
+}
+
+.option-item:hover {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.option-item input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+.user-checkbox-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}
+
+.user-checkbox-item:last-child {
+    border-bottom: none;
+}
+
+.user-checkbox-item:hover {
+    background-color: #333;
+}
+
+.user-checkbox-item input {
+    margin-right: 8px;
+}
+
+.loading-text-small {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-sub);
+    padding: 10px;
+}
