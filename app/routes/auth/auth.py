@@ -1,8 +1,14 @@
-from flask import Blueprint, request, jsonify, render_template
+import os
+
+from flask import Blueprint, request, jsonify, render_template, current_app
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
 from app.models import db
 from app.models.user import User, UserRole, UserStatus, VerificationCode
-from app.models.camera import UserCameraPermission
+from app.models.alert_record import AlertRecord
+from app.models.camera import Camera, UserCameraPermission
+from app.models.user_feedback import UserFeedback
+from app.models.video import Video
+from app.models.yolo_model import YoloModel
 import random
 from datetime import datetime, timedelta
 from app.utils.email import send_verification_email
@@ -17,6 +23,23 @@ def success_response(data=None, msg="操作成功"):
 
 def error_response(msg="操作失败", code=400):
     return jsonify({"code": code, "msg": msg, "data": None}), code
+
+
+def _delete_feedback_attachments(feedbacks):
+    base_dir = current_app.config.get('BASE_DIR')
+    if not base_dir:
+        return
+
+    for feedback in feedbacks:
+        if not feedback.attachment_url:
+            continue
+
+        file_path = os.path.join(base_dir, feedback.attachment_url)
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except OSError as exc:
+                current_app.logger.warning("Failed to delete feedback attachment %s: %s", file_path, exc)
 
 
 # --- View Routes (Frontend) ---
@@ -213,9 +236,33 @@ def delete_user(user_id):
 
     try:
         # 删除权限
+        user_feedbacks = UserFeedback.query.filter_by(user_id=user_id).all()
+        _delete_feedback_attachments(user_feedbacks)
+
+        VerificationCode.query.filter_by(email=user.email).delete()
         UserCameraPermission.query.filter_by(user_id=user_id).delete()
+
+        AlertRecord.query.filter_by(user_id=user_id).delete()
+        UserFeedback.query.filter_by(user_id=user_id).delete()
+
+        UserFeedback.query.filter_by(replied_by=user_id).update(
+            {UserFeedback.replied_by: None},
+            synchronize_session=False
+        )
+        Camera.query.filter_by(created_by=user_id).update(
+            {Camera.created_by: None},
+            synchronize_session=False
+        )
+        Video.query.filter_by(upload_by=user_id).update(
+            {Video.upload_by: None},
+            synchronize_session=False
+        )
+        YoloModel.query.filter_by(upload_by=user_id).update(
+            {YoloModel.upload_by: None},
+            synchronize_session=False
+        )
         
-        # Delete user
+        db.session.flush()
         db.session.delete(user)
         db.session.commit()
         return success_response(msg="用户已注销")

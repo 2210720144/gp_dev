@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('add-video-form');
     const testBtn = document.getElementById('test-connection-btn');
     const urlInput = document.querySelector('input[name="url"]');
@@ -8,127 +8,188 @@ document.addEventListener('DOMContentLoaded', function() {
     const fileGroup = document.getElementById('file-input-group');
     const fileInput = document.getElementById('video-file-input');
     const previewContainer = document.getElementById('file-preview-container');
-    // const videoPreview = document.getElementById('video-preview'); // Removed
     const fileNameDisplay = document.getElementById('file-name-display');
     const fileSizeDisplay = document.getElementById('file-size-display');
 
-    // 切换视频源类型
+    function showTestResult(message, type) {
+        testResult.textContent = message;
+        testResult.className = `test-result ${type}`;
+        testResult.style.display = 'block';
+    }
+
+    function hideTestResult() {
+        testResult.textContent = '';
+        testResult.className = 'test-result';
+        testResult.style.display = 'none';
+    }
+
+    function setSourceTypeUI(sourceType) {
+        const isStream = sourceType === 'stream';
+
+        streamGroup.classList.toggle('hidden', !isStream);
+        fileGroup.classList.toggle('hidden', isStream);
+
+        if (isStream) {
+            urlInput.setAttribute('required', 'required');
+            fileInput.removeAttribute('required');
+        } else {
+            urlInput.removeAttribute('required');
+            fileInput.setAttribute('required', 'required');
+            hideTestResult();
+        }
+    }
+
+    function buildSuccessMessage(data) {
+        if (!data) {
+            return '连接成功';
+        }
+
+        const details = [];
+        if (data.format) {
+            details.push(data.format);
+        }
+        if (data.width && data.height) {
+            details.push(`${data.width}x${data.height}`);
+        }
+        if (data.fps) {
+            details.push(`${data.fps} FPS`);
+        }
+
+        return details.length > 0
+            ? `连接成功：${details.join(' / ')}`
+            : '连接成功';
+    }
+
+    function setTestingState(isTesting) {
+        if (!testBtn) {
+            return;
+        }
+
+        testBtn.classList.toggle('testing', isTesting);
+        testBtn.disabled = isTesting;
+        testBtn.textContent = isTesting ? '测试中...' : '测试连接';
+    }
+
+    function resetFormUI() {
+        previewContainer.classList.add('hidden');
+        fileNameDisplay.textContent = '';
+        fileSizeDisplay.textContent = '';
+        hideTestResult();
+        setSourceTypeUI('stream');
+
+        const streamRadio = document.querySelector('input[name="source_type"][value="stream"]');
+        if (streamRadio) {
+            streamRadio.checked = true;
+        }
+    }
+
     sourceTypeRadios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            if (this.value === 'stream') {
-                streamGroup.classList.remove('hidden');
-                fileGroup.classList.add('hidden');
-                urlInput.setAttribute('required', 'required');
-                fileInput.removeAttribute('required');
-            } else {
-                streamGroup.classList.add('hidden');
-                fileGroup.classList.remove('hidden');
-                urlInput.removeAttribute('required');
-                fileInput.setAttribute('required', 'required');
-            }
+        radio.addEventListener('change', function () {
+            setSourceTypeUI(this.value);
         });
     });
 
-    // 文件选择与预览
+    setSourceTypeUI(document.querySelector('input[name="source_type"]:checked')?.value || 'stream');
+
     if (fileInput) {
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                // Check file size (3GB limit)
-                const maxSize = 3 * 1024 * 1024 * 1024; // 3GB in bytes
-                if (file.size > maxSize) {
-                    alert('文件大小超出限制，请选择较小的文件。');
-                    this.value = ''; // Clear input
-                    fileNameDisplay.textContent = '';
-                    fileSizeDisplay.textContent = '';
-                    previewContainer.classList.add('hidden');
-                    return;
-                }
-
-                // 显示文件名和大小
-                fileNameDisplay.textContent = file.name;
-                fileSizeDisplay.textContent = `(${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-
-                // 移除视频预览逻辑
-                previewContainer.classList.remove('hidden');
-
-                // 自动填充名称（如果为空）
-                const nameInput = document.querySelector('input[name="name"]');
-                if (!nameInput.value) {
-                    nameInput.value = file.name.split('.')[0];
-                }
-            } else {
+        fileInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) {
                 previewContainer.classList.add('hidden');
-                // videoPreview.src = '';
                 fileNameDisplay.textContent = '';
                 fileSizeDisplay.textContent = '';
-            }
-        });
-    }
-
-    // 测试连接功能 (仅限流媒体)
-    if (testBtn) {
-        testBtn.addEventListener('click', function() {
-            const url = urlInput.value.trim();
-            if (!url) {
-                showTestResult('请输入视频源地址', 'error');
                 return;
             }
 
-            testBtn.classList.add('testing');
-            testBtn.textContent = '测试中...';
-            testBtn.disabled = true;
-            testResult.style.display = 'none';
+            const maxSize = 3 * 1024 * 1024 * 1024;
+            if (file.size > maxSize) {
+                alert('文件大小超出限制，请选择较小的视频文件。');
+                fileInput.value = '';
+                previewContainer.classList.add('hidden');
+                fileNameDisplay.textContent = '';
+                fileSizeDisplay.textContent = '';
+                return;
+            }
 
-            // 模拟测试连接
-            setTimeout(() => {
-                testBtn.classList.remove('testing');
-                testBtn.textContent = '测试连接';
-                testBtn.disabled = false;
+            fileNameDisplay.textContent = file.name;
+            fileSizeDisplay.textContent = `(${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+            previewContainer.classList.remove('hidden');
 
-                if (/^(rtsp|rtmp|http|https):\/\//i.test(url)) {
-                    showTestResult('连接成功', 'success');
-                } else {
-                    showTestResult('连接失败：无效的协议头', 'error');
-                }
-            }, 1000);
+            const nameInput = document.querySelector('input[name="name"]');
+            if (nameInput && !nameInput.value) {
+                nameInput.value = file.name.replace(/\.[^.]+$/, '');
+            }
         });
     }
 
-    function showTestResult(msg, type) {
-        testResult.textContent = msg;
-        testResult.className = 'test-result ' + type;
+    if (testBtn) {
+        testBtn.addEventListener('click', async function () {
+            const selectedType = document.querySelector('input[name="source_type"]:checked')?.value;
+            if (selectedType !== 'stream') {
+                showTestResult('本地文件无需测试视频流连接。', 'error');
+                return;
+            }
+
+            const url = urlInput.value.trim();
+            if (!url) {
+                showTestResult('请输入视频流地址。', 'error');
+                return;
+            }
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                showTestResult('登录状态已失效，请重新登录后再试。', 'error');
+                return;
+            }
+
+            hideTestResult();
+            setTestingState(true);
+
+            const controller = new AbortController();
+            const timeoutId = window.setTimeout(() => controller.abort(), 12000);
+
+            try {
+                const response = await fetch('/api/video-source/test', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({ url }),
+                    signal: controller.signal
+                });
+
+                const data = await response.json();
+                if (response.ok && data.code === 200) {
+                    showTestResult(buildSuccessMessage(data.data), 'success');
+                } else {
+                    showTestResult(data.msg || '测试失败，请检查视频流地址。', 'error');
+                }
+            } catch (error) {
+                console.error('Test stream error:', error);
+                if (error.name === 'AbortError') {
+                    showTestResult('测试超时，请检查网络或视频流是否可访问。', 'error');
+                } else {
+                    showTestResult('测试请求失败，请稍后重试。', 'error');
+                }
+            } finally {
+                window.clearTimeout(timeoutId);
+                setTestingState(false);
+            }
+        });
     }
 
-    // 表单提交
     if (form) {
-        // 取消按钮逻辑
         const cancelBtn = document.getElementById('cancel-btn');
         if (cancelBtn) {
-            cancelBtn.addEventListener('click', function() {
-                // 重置表单
+            cancelBtn.addEventListener('click', function () {
                 form.reset();
-                
-                // 重置UI状态
-                previewContainer.classList.add('hidden');
-                // videoPreview.src = '';
-                fileNameDisplay.textContent = '';
-                fileSizeDisplay.textContent = '';
-                testResult.style.display = 'none';
-                
-                // 恢复默认的流媒体选项显示
-                streamGroup.classList.remove('hidden');
-                fileGroup.classList.add('hidden');
-                urlInput.setAttribute('required', 'required');
-                fileInput.removeAttribute('required');
-                
-                // 确保单选按钮状态正确（虽然reset()会重置value，但UI显示切换需要手动处理）
-                document.querySelector('input[value="stream"]').checked = true;
+                resetFormUI();
             });
         }
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
 
             const submitBtn = form.querySelector('.submit-btn');
             const originalText = submitBtn.textContent;
@@ -145,54 +206,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: formData
             })
-            .then(response => {
-                if (response.status === 413) {
-                    throw new Error('文件大小超过服务器限制（最大3GB）');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.code === 200) {
-                    alert('视频源添加成功！');
-                    form.reset();
-                    if (previewContainer) {
-                        previewContainer.classList.add('hidden');
-                        // videoPreview.src = '';
+                .then(response => {
+                    if (response.status === 413) {
+                        throw new Error('文件大小超过服务器限制（最大 3GB）。');
                     }
-                    if (fileNameDisplay) fileNameDisplay.textContent = '';
-                    if (fileSizeDisplay) fileSizeDisplay.textContent = '';
-                    if (testResult) testResult.style.display = 'none';
-
-                    // 显式重置 UI 状态为默认（网络流媒体）
-                    const streamGroup = document.getElementById('stream-input-group');
-                    const fileGroup = document.getElementById('file-input-group');
-                    const urlInput = document.querySelector('input[name="url"]');
-                    const fileInput = document.getElementById('video-file-input');
-
-                    if (streamGroup) streamGroup.classList.remove('hidden');
-                    if (fileGroup) fileGroup.classList.add('hidden');
-                    if (urlInput) urlInput.setAttribute('required', 'required');
-                    if (fileInput) fileInput.removeAttribute('required');
-
-                    // 确保单选按钮状态同步（防止 reset 后状态不一致）
-                    const streamRadio = document.querySelector('input[value="stream"]');
-                    if (streamRadio) streamRadio.checked = true;
-                } else {
-                    alert('添加失败: ' + (data.msg || '未知错误'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                if (error.message.includes('文件大小')) {
-                    alert(error.message);
-                } else {
-                    alert('系统错误，请稍后重试');
-                }
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalText;
-            });
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.code === 200) {
+                        alert('视频源添加成功！');
+                        form.reset();
+                        resetFormUI();
+                    } else {
+                        alert('添加失败：' + (data.msg || '未知错误'));
+                    }
+                })
+                .catch(error => {
+                    console.error('Add video source error:', error);
+                    if (error.message.includes('文件大小')) {
+                        alert(error.message);
+                    } else {
+                        alert('系统错误，请稍后重试。');
+                    }
+                })
+                .finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                });
         });
     }
 });

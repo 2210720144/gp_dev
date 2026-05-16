@@ -145,6 +145,10 @@
     opacity: 0.7;
 }
 
+.test-btn:disabled {
+    cursor: not-allowed;
+}
+
 .test-result {
     margin-top: 8px;
     font-size: 12px;
@@ -158,6 +162,11 @@
 
 .test-result.error {
     color: var(--error-color);
+    display: block;
+}
+
+.test-result.pending {
+    color: var(--text-label);
     display: block;
 }
 

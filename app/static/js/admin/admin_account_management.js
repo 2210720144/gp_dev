@@ -99,9 +99,12 @@ function renderTable(users) {
 
         // 操作按钮逻辑
         let actions = '';
+        let canDelete = canManage;
 
         // 如果是待审核状态，显示通过/驳回
         if (user.status === '待审核') {
+            canDelete = false;
+            canManage = false;
             actions += `
                 <button class="action-btn btn-approve" onclick="auditUser(${user.user_id}, 'approve')">通过</button>
                 <button class="action-btn btn-reject" onclick="auditUser(${user.user_id}, 'reject')">驳回</button>
@@ -121,7 +124,7 @@ function renderTable(users) {
         }
         
         // 注销按钮 (仅当有管理权限时显示)
-        if (canManage) {
+        if (canDelete) {
             actions += `<button class="action-btn btn-delete" onclick="deleteUser(${user.user_id})">注销</button>`;
         }
 

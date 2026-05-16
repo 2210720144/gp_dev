@@ -15,6 +15,8 @@ class DetectionService:
     
     # 默认回退的违停阈值（秒）
     DEFAULT_THRESHOLD = 60
+    # 默认回退的YOLO置信度阈值
+    DEFAULT_YOLO_CONFIDENCE = 0.4
 
     def __new__(cls):
         # 如果还没有创建一个DetectionService实例，就创建一个
@@ -102,6 +104,17 @@ class DetectionService:
         # 如果在数据库表中查找不到记录，就返回默认值
         return self.DEFAULT_THRESHOLD
 
+    def get_yolo_confidence_threshold(self):
+        """从数据库中获取YOLO置信度阈值，并限制在0到1之间"""
+        try:
+            config = SysConfig.query.filter_by(config_key='YOLO置信度阈值').first()
+            if config:
+                confidence = float(config.config_value)
+                return min(max(confidence, 0.0), 1.0)
+        except Exception as e:
+            current_app.logger.error(f"Error fetching YOLO confidence threshold: {e}")
+        return self.DEFAULT_YOLO_CONFIDENCE
+
     def get_camera_status(self, camera_id):
         """
         获取当前摄像头实时检测的数据
@@ -166,7 +179,8 @@ class DetectionService:
 
             # 运行模型进行目标跟踪（persistent=True对于跨帧跟踪很重要）
             # 还要将单车目标给过滤出来，不然就是全部检测了
-            results = model.track(frame, persist=True, verbose=False, classes=target_classes, conf=0.4)
+            yolo_confidence = self.get_yolo_confidence_threshold()
+            results = model.track(frame, persist=True, verbose=False, classes=target_classes, conf=yolo_confidence)
             
             # 复制一份帧
             annotated_frame = frame.copy()

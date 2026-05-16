@@ -26,6 +26,14 @@ function loadConfigs() {
                     document.getElementById('unit_alert_refresh_interval').textContent = config.unit;
                     document.getElementById('desc_alert_refresh_interval').setAttribute('data-tooltip', config.description);
                 }
+
+                // Update YOLO Confidence Threshold (Backend key: 'YOLO置信度阈值')
+                if (configs['YOLO置信度阈值']) {
+                    const config = configs['YOLO置信度阈值'];
+                    document.getElementById('yolo_confidence_threshold').value = config.config_value;
+                    document.getElementById('unit_yolo_confidence_threshold').textContent = config.unit;
+                    document.getElementById('desc_yolo_confidence_threshold').setAttribute('data-tooltip', config.description);
+                }
             } else {
                 alert('加载配置失败: ' + data.msg);
             }
@@ -39,10 +47,18 @@ function loadConfigs() {
 function saveConfigs() {
     const violationTime = document.getElementById('violation_judgment_time').value;
     const alertInterval = document.getElementById('alert_refresh_interval').value;
+    const yoloConfidenceThreshold = document.getElementById('yolo_confidence_threshold').value;
+    const yoloConfidenceValue = parseFloat(yoloConfidenceThreshold);
+
+    if (Number.isNaN(yoloConfidenceValue) || yoloConfidenceValue < 0 || yoloConfidenceValue > 1) {
+        alert('YOLO置信度阈值必须在0到1之间');
+        return;
+    }
 
     const data = {
         '违停判定时间': parseFloat(violationTime),
-        '告警刷新时间': parseFloat(alertInterval)
+        '告警刷新时间': parseFloat(alertInterval),
+        'YOLO置信度阈值': yoloConfidenceValue
     };
 
     fetch('/api/config', {

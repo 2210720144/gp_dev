@@ -16,6 +16,12 @@ DEFAULT_CONFIGS = [
         'config_value': 0.5,
         'unit': 'min',
         'description': '对于同一违停事件，系统再次触发告警的最小时间间隔'
+    },
+    {
+        'config_key': 'YOLO置信度阈值',
+        'config_value': 0.4,
+        'unit': '0-1',
+        'description': 'YOLO检测目标的最低置信度，低于该值的目标将被过滤'
     }
 ]
 
@@ -62,10 +68,15 @@ def update_configs():
         return jsonify({'code': 400, 'msg': 'No data provided'}), 400
         
     try:
+        init_default_configs()
         # data format expected: {'violation_judgment_time': 1.5, 'alert_refresh_interval': 1.0}
         for key, value in data.items():
             config = SysConfig.query.filter_by(config_key=key).first()
             if config:
+                if key == 'YOLO置信度阈值':
+                    value = float(value)
+                    if value < 0 or value > 1:
+                        return jsonify({'code': 400, 'msg': 'YOLO置信度阈值必须在0到1之间'}), 400
                 config.config_value = value
         
         db.session.commit()
