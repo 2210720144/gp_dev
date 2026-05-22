@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>毕设系统_主界面</title>
+    <title>毕业设计系统_主界面</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='icon/favicon.svg') }}">
-    <!-- Added ?v=2 to force cache refresh -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=2">
+    <!-- 增加版本号，便于刷新浏览器缓存 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}?v=3">
 </head>
 <body>
 
-    <!-- Top Right Button -->
+    <!-- 右上角登录/注册按钮 -->
     <a href="{{ url_for('auth.login_page') }}" class="auth-btn">登录 / 注册</a>
 
-    <!-- Header -->
+    <!-- 顶部标题区域 -->
     <div class="header">
         <h1 class="system-title">基于YOLO算法的校园单车违规停放智能检测与告警系统</h1>
     </div>
 
-    <!-- Main Content -->
+    <!-- 页面主体内容 -->
     <div class="main-content">
         <div class="icon-container">
-            <!-- Simple Bicycle SVG Icon -->
+            <!-- 自行车 SVG 图标 -->
             <svg class="bike-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="5.5" cy="17.5" r="3.5"/>
                 <circle cx="18.5" cy="17.5" r="3.5"/>
@@ -30,17 +30,16 @@
                 <path d="M5.5 17.5H18.5"/>
             </svg>
         </div>
-        
+
         <div class="process-diagram">
-            <!-- Simple Process Flow Representation -->
-             <!-- Just a visual placeholder or simple lines -->
-             <div style="display: flex; gap: 10px; justify-content: center; align-items: center; margin-bottom: 15px;">
-                <span style="color: #BBBBBB; font-size: 12px; border: 1px solid #444; padding: 4px 8px; border-radius: 4px;">违停检测</span>
-                <span style="color: #4A6FA5;">&rarr;</span>
-                <span style="color: #BBBBBB; font-size: 12px; border: 1px solid #444; padding: 4px 8px; border-radius: 4px;">智能识别</span>
-                <span style="color: #4A6FA5;">&rarr;</span>
-                <span style="color: #BBBBBB; font-size: 12px; border: 1px solid #444; padding: 4px 8px; border-radius: 4px;">告警推送</span>
-             </div>
+            <!-- 流程图结构 -->
+            <div class="process-flow">
+                <span class="process-step">违停检测</span>
+                <span class="process-arrow">&rarr;</span>
+                <span class="process-step">智能识别</span>
+                <span class="process-arrow">&rarr;</span>
+                <span class="process-step">告警推送</span>
+            </div>
         </div>
 
         <p class="description">智能检测单车违停，实时推送告警通知</p>

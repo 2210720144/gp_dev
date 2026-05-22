@@ -1,94 +1,120 @@
 
-/* bady是控制全局基础样式*/
+/* body 控制首页的全局基础样式 */
 body {
     margin: 0;
     padding: 0;
-    background-color: #1E1E1E;  /* 背景颜色 */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;   /* 字体族 */
-    color: #F5F5F5;  /* 字体颜色：浅灰色 */
-    height: 100vh;  /* 让body占满整个浏览器可视区域的高度（1vh=视口高度的1%） */
-    display: flex;  /* 开启弹性布局 */
-    flex-direction: column;  /* 子元素垂直排列（从上到下） */
-    overflow: hidden; /* 隐藏超出视口的内容，防止出现滚动条 */
+    background-color: #1E1E1E;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #F5F5F5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
-/* Top Area */
+/* 顶部标题区域 */
 .header {
-    text-align: center;  /* 子元素文字居中 */
-    height: 35vh;  /* 顶部区域占视口高度的35%（约1/3） */
-    display: flex;  /* 开启弹性布局（控制内部元素对齐） */
-    align-items: flex-end;  /* 子元素在垂直方向靠下对齐 */
-    justify-content: center;  /* 子元素在水平方向居中 */
-    padding-bottom: 20px;  /* 底部内边距（让内容离底部有间距） */
-    box-sizing: border-box;  /* 内边距/边框计入元素总高度（避免padding撑高元素） */
-    position: relative;  /* 为内部绝对/固定定位的子元素提供参考 */
+    text-align: center;
+    height: 35vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    position: relative;
 }
 
 .system-title {
-    font-size: 50px;  /* 标题字号 */
-    font-weight: bold;  /* 加粗 */
-    color: #F5F5F5;  /* 浅灰色文字 */
-    text-shadow: 0 0 5px #888888;  /* 文字阴影（浅灰色模糊效果，增加层次感） */
-    margin: 0;  /* 重置默认外边距 */
+    font-size: 50px;
+    font-weight: bold;
+    color: #F5F5F5;
+    text-shadow: 0 0 5px #888888;
+    margin: 0;
 }
 
 /* 登录/注册按钮 */
 .auth-btn {
-    position: fixed; /* 固定定位：按钮始终停在视口的右上角，不随页面滚动变化 */
-    top: 20px; /* 距离视口顶部20px */
-    right: 20px; /* 距离视口右侧20px */
-    background-color: #3A3A3A; /* 按钮背景（比页面背景浅一点的灰色） */
-    color: #F5F5F5; /* 按钮文字色 */
-    font-size: 14px; /* 按钮字号 */
-    padding: 8px 16px; /* 按钮内边距（上下8px，左右16px），让按钮更饱满 */
-    border: 1px solid #666666; /* 按钮边框（浅灰色） */
-    border-radius: 4px; /* 按钮圆角（柔和边角） */
-    cursor: pointer; /* 鼠标悬停时显示“手型”，提示可点击 */
-    transition: all 0.3s ease;  /* 所有属性变化的过渡动画（0.3秒完成，更平滑） */
-    text-decoration: none; /* 去除链接默认的下划线（如果按钮是<a>标签） */
-    outline: none; /* 去除点击时的默认外边框 */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 添加轻微阴影，增加立体感 */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #3A3A3A;
+    color: #F5F5F5;
+    font-size: 14px;
+    padding: 8px 16px;
+    border: 1px solid #666666;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
 .auth-btn:hover {
-    background-color: #4A6FA5;  /* 鼠标悬停时，按钮背景变为浅蓝色 */
-    transform: scale(1.05); /* 鼠标悬停时，按钮轻微放大1.05倍 */
-    border-color: #888888; /* 边框颜色也变亮一点 */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 阴影加深，营造悬浮感 */
+    background-color: #4A6FA5;
+    transform: scale(1.05);
+    border-color: #888888;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* 中间内容 */
+/* 页面中间内容 */
 .main-content {
-    flex: 1; /* 弹性布局中，占满body剩余的所有高度（100vh - 35vh） */
-    display: flex; /* 开启弹性布局 */
-    flex-direction: column; /* 子元素垂直排列 */
-    justify-content: center; /* 子元素水平居中 */
-    align-items: center; /* 子元素垂直居中 */
-    text-align: center; /* 文字居中 */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-/* 图标容器与自行车图标 */
+/* 图标容器 */
 .icon-container {
-    margin-bottom: 20px; /* 图标容器底部外边距（和下方描述文字拉开间距） */
+    margin-bottom: 20px;
 }
 
 .bike-icon {
-    width: 64px; /* 图标宽度 */
-    height: 64px; /* 图标高度 */
-    stroke: #E0E0E0; /* SVG图标的描边颜色（浅灰色） */
-    fill: none; /* SVG图标无填充色（只显示描边） */
-    stroke-width: 2; /* SVG描边的宽度（2px） */
+    width: 64px;
+    height: 64px;
+    stroke: #E0E0E0;
+    fill: none;
+    stroke-width: 2;
 }
 
-/* 描述文本 */
+/* 流程图整体布局 */
+.process-diagram {
+    margin-bottom: 15px;
+}
+
+.process-flow {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 流程节点文字样式 */
+.process-step {
+    color: #BBBBBB;
+    font-size: 12px;
+    border: 1px solid #444444;  /* 边框样式*/
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+/* 流程箭头样式 */
+.process-arrow {
+    color: #4A6FA5;
+}
+
+/* 底部描述文字 */
 .description {
-    color: #BBBBBB; /* 描述文字色（比正文更浅的灰色，区分层级） */
-    font-size: 14px; /* 小号字体 */
-    margin-top: 10px; /* 顶部外边距（和图标拉开间距） */
+    color: #BBBBBB;
+    font-size: 14px;
+    margin-top: 10px;
 }
 
-/* SVG通用样式 */
+/* SVG 通用样式 */
 svg {
     display: block;
     margin: 0 auto;
