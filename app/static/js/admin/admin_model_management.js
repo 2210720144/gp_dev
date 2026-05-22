@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get JWT token from local storage or cookie if needed. 
             // Assuming the browser handles cookies or we need to add Authorization header manually.
             // Since this is a pair programming task, I'll assume standard fetch with credentials or token handling.
-            // If the app uses localStorage for token:
-            const token = localStorage.getItem('token');
+            // If the app uses sessionStorage for token:
+            const token = sessionStorage.getItem('token');
             
             const headers = {};
             if (token) {
@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchModelList();
 
     function fetchModelList() {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch('/api/model/list', {
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Expose functions to global scope for onclick handlers
     window.viewModel = function(id) {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch(`/api/model/detail/${id}`, {
             headers: {
                 'Authorization': 'Bearer ' + token
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch(`/api/model/update/${id}`, {
             method: 'POST',
             headers: {
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.enableModel = function(id) {
         if(!confirm('确定要启用该模型吗？这将停用当前正在使用的模型。')) return;
         
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch(`/api/model/enable/${id}`, {
             method: 'POST',
             headers: {
@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.deleteModel = function(id) {
         if(!confirm('确定要删除该模型吗？此操作不可恢复。')) return;
 
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch(`/api/model/delete/${id}`, {
             method: 'DELETE',
             headers: {

@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', function() {
 let currentUserEmail = '';
 
 function loadUserProfile() {
-    // 优先从 localStorage 获取基本信息展示
-    const userInfoStr = localStorage.getItem('user_info');
+    // 优先从 sessionStorage 获取基本信息展示
+    const userInfoStr = sessionStorage.getItem('user_info');
     if (userInfoStr) {
         try {
             const user = JSON.parse(userInfoStr);
@@ -146,7 +146,7 @@ function handleChangePassword(e) {
         return;
     }
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) {
         alert('登录已过期，请重新登录');
         window.location.href = '/auth';
@@ -170,8 +170,8 @@ function handleChangePassword(e) {
         if (result.code === 200) {
             alert('密码修改成功，请重新登录');
             // 清除 Token 并跳转登录
-            localStorage.removeItem('token');
-            localStorage.removeItem('user_info');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user_info');
             window.location.href = '/auth';
         } else {
             alert(result.msg);

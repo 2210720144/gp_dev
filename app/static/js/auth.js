@@ -235,10 +235,10 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.code === 200) {
                     // Login successful
-                    // Store token (e.g., in localStorage) - Optional but recommended for JWT
-                    localStorage.setItem('token', data.data.token);
+                    // Store token (e.g., in sessionStorage) - Optional but recommended for JWT
+                    sessionStorage.setItem('token', data.data.token);
                     // Store user info
-                    localStorage.setItem('user_info', JSON.stringify(data.data.user));
+                    sessionStorage.setItem('user_info', JSON.stringify(data.data.user));
                     
                     // Redirect based on role
                     const role = data.data.user.role;

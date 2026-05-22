@@ -67,7 +67,7 @@
     <script>
         function logout() {
             // 清除 Token 并跳转
-            localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
             window.location.href = '/';
         }
     </script>

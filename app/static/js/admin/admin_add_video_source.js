@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             if (!token) {
                 showTestResult('登录状态已失效，请重新登录后再试。', 'error');
                 return;
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
             submitBtn.textContent = '保存中...';
 
             const formData = new FormData(form);
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
 
             fetch('/api/video-source/add', {
                 method: 'POST',

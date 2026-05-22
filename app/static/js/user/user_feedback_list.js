@@ -8,7 +8,7 @@ async function fetchFeedbackList(year, month, showAll) {
     tbody.innerHTML = '<tr><td colspan="4" class="loading-text">正在加载数据...</td></tr>';
 
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const params = new URLSearchParams();
         if (showAll) {
             params.append('show_all', 'true');
@@ -233,7 +233,7 @@ async function submitFeedback() {
     }
 
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const response = await fetch('/api/feedback/add', {
             method: 'POST',
             headers: {
@@ -330,7 +330,7 @@ async function cancelFeedback(id) {
     }
 
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const response = await fetch(`/api/feedback/delete/${id}`, {
             method: 'POST',
             headers: {

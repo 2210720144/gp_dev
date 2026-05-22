@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 1. 鉴权逻辑：检查 Token 是否存在
     // 1. 鉴权逻辑：检查 Token 是否存在
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) {
         alert('您尚未登录，请先登录');
         window.location.href = '/auth'; // 跳转到登录页
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(data => {
         if (data.code === 200) {
             // Token 有效，更新本地存储的用户信息（保持同步）
-            localStorage.setItem('user_info', JSON.stringify(data.data));
+            sessionStorage.setItem('user_info', JSON.stringify(data.data));
             
             // 更新页面显示
             updateUserInfo(data.data);
@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', function() {
     .catch(error => {
         console.error('Auth verification failed:', error);
         alert('登录状态已失效，请重新登录');
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_info');
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('user_info');
         window.location.href = '/auth';
     });
 
@@ -294,8 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoutBtn = document.querySelector('.header .right button');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user_info');
+            sessionStorage.removeItem('token');
+            sessionStorage.removeItem('user_info');
             window.location.href = '/auth'; // Redirect to login page
         });
     }

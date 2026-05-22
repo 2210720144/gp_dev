@@ -61,7 +61,7 @@ async function fetchAlertList() {
     tbody.innerHTML = '<tr><td colspan="5" class="loading-text">正在加载数据...</td></tr>';
 
     try {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         const showAll = document.getElementById('show-all-check').checked;
         const cameraId = document.getElementById('camera-filter').value;
         const year = document.getElementById('year-filter').value;
@@ -198,7 +198,7 @@ function renderTable(list) {
 }
 
 async function exportData(type) {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const showAll = document.getElementById('show-all-check').checked;
     const cameraId = document.getElementById('camera-filter').value;
     const year = document.getElementById('year-filter').value;

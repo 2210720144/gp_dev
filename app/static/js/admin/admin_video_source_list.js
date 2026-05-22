@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const newName = document.getElementById('detail-name').value;
         const newLocation = document.getElementById('detail-location').value;
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         // Simple validation
         if (!newName.trim() || !newLocation.trim()) {
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetchVideoList();
 
     function fetchVideoList() {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch('/api/video-source/list', {
             method: 'GET',
             headers: {
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.deleteVideo = function(id) {
         if(confirm('确定要删除该视频源吗？')) {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             fetch(`/api/video-source/delete/${id}`, {
                 method: 'DELETE',
                 headers: {

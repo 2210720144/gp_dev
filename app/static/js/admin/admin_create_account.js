@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 权限控制：检查是否为超级管理员
-    const userInfoStr = localStorage.getItem('user_info');
+    const userInfoStr = sessionStorage.getItem('user_info');
     if (userInfoStr) {
         try {
             const userInfo = JSON.parse(userInfoStr);
@@ -72,8 +72,8 @@ document.getElementById('create-account-form').addEventListener('submit', functi
     }
 
     // 这里调用新的通用创建接口
-    // 注意：需要从 localStorage 获取 Token，因为这是一个受保护的接口
-    const token = localStorage.getItem('token');
+    // 注意：需要从 sessionStorage 获取 Token，因为这是一个受保护的接口
+    const token = sessionStorage.getItem('token');
 
     if (!token) {
         alert('登录已过期，请重新登录');

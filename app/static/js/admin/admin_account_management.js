@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
 let allUsers = []; // Store all users locally for filtering
 
 function loadUserList() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (!token) {
         window.location.href = '/auth';
         return;
@@ -67,7 +67,7 @@ function renderTable(users) {
     let currentUserId = null;
     let currentUserRole = null;
     try {
-        const userInfo = JSON.parse(localStorage.getItem('user_info'));
+        const userInfo = JSON.parse(sessionStorage.getItem('user_info'));
         currentUserId = userInfo ? userInfo.user_id : null;
         currentUserRole = userInfo ? userInfo.role : null;
     } catch(e) {}
@@ -160,7 +160,7 @@ window.manageUser = function(userId, action) {
 window.deleteUser = function(userId) {
     if (!confirm('确认要注销该用户吗？注销后将删除该用户及其所有相关权限，此操作不可恢复。')) return;
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     fetch(`/admin/user/delete/${userId}`, {
         method: 'DELETE',
         headers: {
@@ -184,7 +184,7 @@ window.deleteUser = function(userId) {
 
 // 通用API调用
 function callApi(url, data) {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     fetch(url, {
         method: 'POST',
         headers: {

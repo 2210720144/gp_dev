@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch('/api/camera/add', {
             method: 'POST',
             headers: {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch('/api/camera/update', {
             method: 'POST',
             headers: {
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchCameraList() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     fetch('/api/camera/list', {
         headers: { 'Authorization': 'Bearer ' + token }
     })
@@ -236,7 +236,7 @@ window.openAddModal = function() {
     const select = document.getElementById('add-video-select');
     select.innerHTML = '<option value="">正在加载...</option>';
     
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     fetch('/api/camera/video-sources/available', {
         headers: { 'Authorization': 'Bearer ' + token }
     })
@@ -265,7 +265,7 @@ window.closeAddModal = function() {
 };
 
 window.openConfigModal = function(id, name) {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     
     document.getElementById('config-camera-id').value = id;
     document.getElementById('config-camera-id-hidden').value = id;
@@ -370,7 +370,7 @@ window.closeConfigModal = function() {
 };
 
 window.viewDetail = function(id) {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     
     // 显示加载状态或清空旧数据
     document.getElementById('detail-camera-id').value = '加载中...';
@@ -413,7 +413,7 @@ window.closeDetailModal = function() {
 
 window.deleteCamera = function(id) {
     if(confirm('确定要删除该摄像头吗？')) {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         fetch(`/api/camera/delete/${id}`, {
             method: 'DELETE',
             headers: {
