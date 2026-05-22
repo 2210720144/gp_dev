@@ -108,6 +108,8 @@ class FeedbackService:
         db.session.commit()
         return feedback
 
+    @staticmethod
+    def create_feedback(user_id, title, content, image_file=None):
         """
         创建用户反馈
         :param user_id: 用户ID
@@ -140,10 +142,7 @@ class FeedbackService:
             # 保存文件
             image_file.save(file_path)
             
-            # 保存相对路径或绝对路径？
-            # 这里的 attachment_url 用于后续访问，如果只是为了记录路径，可以用绝对路径
-            # 如果是用于前端访问，可能需要配置静态资源路由。
-            # 题目要求“保存到gp_dev/feedback_image目录下面”，这里存储相对路径比较灵活
+            # 保存相对路径？
             # 存储格式： feedback_image/filename
             attachment_url = f"feedback_image/{unique_filename}"
 
